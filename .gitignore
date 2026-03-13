@@ -1,0 +1,6 @@
+*.o
+riscv
+
+builds/
+
+.DS_Store
