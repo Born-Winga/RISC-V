@@ -32,15 +32,26 @@ The emulator currently:
 - Loads a raw input binary directly into emulated DRAM
 - Executes until an illegal instruction is hit or memory bounds stop execution
 - Keeps `x0` pinned to zero after each step
+- Uses a small table-driven dispatcher instead of one large nested decode block
 
 ## Project Layout
 
 - `src/main.c`
   Loads a binary file into memory and drives the fetch/execute/step loop.
 - `src/cpu.c`
-  Contains the CPU core: fetch, bit extraction, sign extension, decode, and execution.
+  Owns the CPU execution entry point and dispatches decoded instructions through the instruction table.
+- `src/utils.c`
+  Contains fetch, bit extraction, sign extension, base decode, and immediate decoding helpers.
+- `src/handlers.c`
+  Contains the per-instruction execution handlers.
 - `includes/CPU.h`
   Shared CPU state and function declarations.
+- `includes/utils.h`
+  Declares the decoded-instruction structure and decode helper functions.
+- `includes/handlers.h`
+  Declares the instruction handler functions.
+- `includes/table.h`
+  Defines the instruction descriptor table and lookup function used for dispatch.
 - `includes/OPCODE.h`
   Opcode definitions.
 - `includes/FN3.h`
@@ -53,7 +64,7 @@ The emulator currently:
 The current `Makefile` is not set up yet, so the simplest way to build is with `cc`:
 
 ```bash
-cc -Iincludes -Wall -Wextra -Wpedantic src/main.c src/cpu.c -o riscv
+cc -Iincludes -Wall -Wextra -Wpedantic src/main.c src/cpu.c src/utils.c src/handlers.c -o riscv
 ```
 
 ## Run
@@ -69,6 +80,7 @@ The binary is copied directly into emulator memory starting at address `0`.
 ## Notes and Limitations
 
 - This is still a learning codebase, so correctness and clarity matter more than completeness.
+- The decode path is being refactored toward a cleaner table-driven design.
 - Error handling is minimal.
 - Trap, syscall, and OS behavior are not developed yet.
 - There is no ELF loader yet, only raw binary loading.
@@ -83,6 +95,7 @@ I wanted a project that forced me to understand the mechanics behind CPU executi
 - working with bit fields
 - handling signed vs unsigned behavior
 - reasoning about program counters and jumps
+- organizing decode and execution logic in a maintainable way
 - debugging low-level state transitions
 
 ## Next Steps

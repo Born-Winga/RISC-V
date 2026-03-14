@@ -3,7 +3,8 @@
 typedef enum
 {
     ADD_SRL = 0x00,
-    SUB_SRA = 0x20
+    SUB_SRA = 0x20,
+    MUL_EXT = 0x01
 } R_FMT_FN7;
 
 typedef enum

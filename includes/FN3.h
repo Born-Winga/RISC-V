@@ -1,5 +1,3 @@
-#include <stdlib.h>
-
 #ifndef FN3_CODE_H
 #define FN3_CODE_H
 typedef enum
