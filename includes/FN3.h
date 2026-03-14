@@ -14,6 +14,18 @@ typedef enum
 
 typedef enum
 {
+    MUL = 0x0,
+    MULH = 0x1,
+    MULHSU = 0x2,
+    MULHU = 0x3,
+    DIV = 0x4,
+    DIVU = 0x5,
+    REM = 0x6,
+    REMU = 0x7
+} M_EXT_FN3;
+
+typedef enum
+{
     BEQ = 0x0,
     BNE = 0x1,
     BLT = 0x4,

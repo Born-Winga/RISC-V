@@ -14,6 +14,14 @@ void exec_or(CPU* cpu, const DecodedInstr* instr);
 void exec_and(CPU* cpu, const DecodedInstr* instr);
 void exec_srl(CPU* cpu, const DecodedInstr* instr);
 void exec_sra(CPU* cpu, const DecodedInstr* instr);
+void exec_mul(CPU* cpu, const DecodedInstr* instr);
+void exec_mulh(CPU* cpu, const DecodedInstr* instr);
+void exec_mulhsu(CPU* cpu, const DecodedInstr* instr);
+void exec_mulhu(CPU* cpu, const DecodedInstr* instr);
+void exec_div(CPU* cpu, const DecodedInstr* instr);
+void exec_divu(CPU* cpu, const DecodedInstr* instr);
+void exec_rem(CPU* cpu, const DecodedInstr* instr);
+void exec_remu(CPU* cpu, const DecodedInstr* instr);
 
 /** I_FMT */
 void exec_addi(CPU* cpu, const DecodedInstr* instr);

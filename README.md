@@ -21,6 +21,7 @@ The goal here is not to build a production-grade emulator. The goal is to unders
 Right now the emulator is focused on a subset of RV32-style integer behavior, including:
 
 - Register-register integer operations
+- RV32M-style multiply, divide, and remainder operations
 - Immediate integer operations
 - Loads and stores
 - Branches
@@ -33,6 +34,7 @@ The emulator currently:
 - Executes until an illegal instruction is hit or memory bounds stop execution
 - Keeps `x0` pinned to zero after each step
 - Uses a small table-driven dispatcher instead of one large nested decode block
+- Splits decode helpers, instruction lookup, and execution handlers into separate files
 
 ## Project Layout
 
@@ -55,7 +57,7 @@ The emulator currently:
 - `includes/OPCODE.h`
   Opcode definitions.
 - `includes/FN3.h`
-  `funct3` values grouped by instruction class.
+  `funct3` values grouped by instruction class, including the M extension operation codes.
 - `includes/FN7.h`
   `funct7` values used by shift and arithmetic instruction variants.
 
@@ -81,6 +83,7 @@ The binary is copied directly into emulator memory starting at address `0`.
 
 - This is still a learning codebase, so correctness and clarity matter more than completeness.
 - The decode path is being refactored toward a cleaner table-driven design.
+- The multiply/divide extension is wired into the instruction table, but the project is still incomplete overall.
 - Error handling is minimal.
 - Trap, syscall, and OS behavior are not developed yet.
 - There is no ELF loader yet, only raw binary loading.
@@ -104,6 +107,7 @@ Some likely next improvements:
 
 - add tests for instruction decoding and execution
 - support more RV32I instructions
+- keep expanding and validating RV32M behavior
 - improve illegal-instruction and trap handling
 - add an ELF loader instead of raw binary loading
 - improve memory checking and diagnostics

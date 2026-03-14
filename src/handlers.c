@@ -1,5 +1,7 @@
 #include "handlers.h"
+#include <limits.h>
 #include <stdint.h>
+
 void exec_add(CPU* cpu, const DecodedInstr* ins)
 {
     cpu->REG[ins->rd] = cpu->REG[ins->rs1] + cpu->REG[ins->rs2];
@@ -42,7 +44,103 @@ void exec_sra(CPU* cpu, const DecodedInstr* ins)
     uint32_t shamt = cpu->REG[ins->rs2] & 0x1F;
     cpu->REG[ins->rd] = (int32_t)cpu->REG[ins->rs1] >> shamt;
 }
+void exec_mul(CPU* cpu, const DecodedInstr* ins)
+{
+    uint64_t product = (int64_t)(int32_t)cpu->REG[ins->rs1] * (int32_t)cpu->REG[ins->rs2];
+    cpu->REG[ins->rd] = (uint32_t)product;
+}
 
+void exec_mulh(CPU* cpu, const DecodedInstr* ins)
+{
+    uint64_t product = (int64_t)(int32_t)cpu->REG[ins->rs1] * (int32_t)cpu->REG[ins->rs2];
+    cpu->REG[ins->rd] = (uint32_t)(product >> 32);
+}
+
+void exec_mulhu(CPU* cpu, const DecodedInstr* ins)
+{
+    uint64_t product = (uint64_t)cpu->REG[ins->rs1] * (uint32_t)cpu->REG[ins->rs2];
+    cpu->REG[ins->rd] = (uint32_t)(product >> 32);
+}
+
+void exec_mulhsu(CPU* cpu, const DecodedInstr* ins)
+{
+    uint64_t product = (int64_t)(int32_t)cpu->REG[ins->rs1] * (uint32_t)cpu->REG[ins->rs2];
+    cpu->REG[ins->rd] = (uint32_t)(product >> 32);
+}
+
+void exec_div(CPU* cpu, const DecodedInstr* ins)
+{
+    int32_t a = (int32_t)cpu->REG[ins->rs1];
+    int32_t b = (int32_t)cpu->REG[ins->rs2];
+    uint32_t result;
+
+    if (b == 0)
+    {
+        result = 0xFFFFFFFFu;
+    }
+    else if (a == INT32_MIN && b == -1)
+    {
+        result = (uint32_t)INT32_MIN;
+    }
+    else
+    {
+        result = (uint32_t)(a / b);
+    }
+
+    cpu->REG[ins->rd] = result;
+}
+
+void exec_divu(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t a = (uint32_t)cpu->REG[ins->rs1];
+    uint32_t b = (uint32_t)cpu->REG[ins->rs2];
+
+    if (b == 0)
+    {
+        cpu->REG[ins->rd] = 0xFFFFFFFFu;
+    }
+    else
+    {
+        cpu->REG[ins->rd] = a / b;
+    }
+}
+
+void exec_rem(CPU* cpu, const DecodedInstr* ins)
+{
+    int32_t a = (int32_t)cpu->REG[ins->rs1];
+    int32_t b = (int32_t)cpu->REG[ins->rs2];
+    uint32_t result;
+
+    if (b == 0)
+    {
+        result = (uint32_t)a;
+    }
+    else if (a == INT32_MIN && b == -1)
+    {
+        result = 0;
+    }
+    else
+    {
+        result = (uint32_t)(a % b);
+    }
+
+    cpu->REG[ins->rd] = result;
+}
+
+void exec_remu(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t a = (uint32_t)cpu->REG[ins->rs1];
+    uint32_t b = (uint32_t)cpu->REG[ins->rs2];
+
+    if (b == 0)
+    {
+        cpu->REG[ins->rd] = a;
+    }
+    else
+    {
+        cpu->REG[ins->rd] = a % b;
+    }
+}
 /** I_FMT */
 void exec_addi(CPU* cpu, const DecodedInstr* ins)
 {
