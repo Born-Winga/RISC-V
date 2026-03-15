@@ -66,4 +66,8 @@ void exec_auipc(CPU* cpu, const DecodedInstr* instr);
 void exec_debug(CPU* cpu, const DecodedInstr* instr);
 void exec_osctlr(CPU* cpu, const DecodedInstr* instr);
 
+/** A extension */
+void exec_lrw(CPU* cpu, const DecodedInstr* instr);
+void exec_scw(CPU* cpu, const DecodedInstr* instr);
+
 #endif

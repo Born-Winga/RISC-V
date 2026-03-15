@@ -18,4 +18,10 @@ typedef enum
     DEBUG = 0x00,
     OS = 0x01,
 } SYSTEM_FN7;
+
+typedef enum
+{
+    LR_W = 0x08,
+    SC_W = 0x0C,
+} AMO_FN7;
 #endif

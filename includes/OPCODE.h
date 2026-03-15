@@ -9,6 +9,7 @@ typedef enum
     BRANCH = 0x63,
     LOAD = 0x03,
     STORE = 0x23,
+    AMO = 0x2F,
     I_FMT = 0x13,
     R_FMT = 0x33,
     SYSTEM = 0x73

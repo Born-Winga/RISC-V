@@ -22,6 +22,7 @@ Right now the emulator is focused on a subset of RV32-style integer behavior, in
 
 - Register-register integer operations
 - RV32M-style multiply, divide, and remainder operations
+- Word-sized LR/SC atomics (`LR.W`, `SC.W`)
 - Immediate integer operations
 - Loads and stores
 - Branches
@@ -83,7 +84,7 @@ The binary is copied directly into emulator memory starting at address `0`.
 
 - This is still a learning codebase, so correctness and clarity matter more than completeness.
 - The decode path is being refactored toward a cleaner table-driven design.
-- The multiply/divide extension is wired into the instruction table, but the project is still incomplete overall.
+- The instruction table now covers RV32M plus `LR.W`/`SC.W`, but the project is still incomplete overall.
 - Error handling is minimal.
 - Trap, syscall, and OS behavior are not developed yet.
 - There is no ELF loader yet, only raw binary loading.

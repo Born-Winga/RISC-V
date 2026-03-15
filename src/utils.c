@@ -4,6 +4,7 @@
 #include <assert.h>
 #include <stdlib.h>
 
+// TODO: Implement Memory utils
 DecodedInstr decode_basic(uint32_t instr)
 {
     DecodedInstr ins = {0};
@@ -115,4 +116,51 @@ uint32_t zero_extend(uint32_t value, size_t width)
 
     uint32_t mask = (1u << width) - 1u;
     return value & mask;
+}
+
+uint32_t mem_read8(uint32_t addr)
+{
+    uint32_t byte = (uint8_t)DRAM[addr];
+    return byte;
+}
+
+uint32_t mem_read16(uint32_t addr)
+{
+    uint32_t b0 = (uint8_t)DRAM[addr];
+    uint32_t b1 = (uint8_t)DRAM[addr + 1];
+    uint32_t hw = (b1 << 8) | b0;
+    return hw;
+}
+
+uint32_t mem_read32(uint32_t addr)
+{
+    uint32_t b0 = (uint8_t)DRAM[addr];
+    uint32_t b1 = (uint8_t)DRAM[addr + 1];
+    uint32_t b2 = (uint8_t)DRAM[addr + 2];
+    uint32_t b3 = (uint8_t)DRAM[addr + 3];
+    return (b3 << 24) | (b2 << 16) | (b1 << 8) | b0;
+}
+
+bool is_valid_addr(uint32_t addr)
+{
+    return addr + 3 <= MEM_SIZE;
+}
+
+void mem_write32(uint32_t addr, uint32_t value)
+{
+    DRAM[addr] = (uint8_t)(value & 0xFF);
+    DRAM[addr + 1] = (uint8_t)((value >> 8) & 0xFF);
+    DRAM[addr + 2] = (uint8_t)((value >> 16) & 0xFF);
+    DRAM[addr + 3] = (uint8_t)((value >> 24) & 0xFF);
+}
+
+void mem_write16(uint32_t addr, uint32_t value)
+{
+    DRAM[addr] = (uint8_t)(value & 0xFF);
+    DRAM[addr + 1] = (uint8_t)((value >> 8) & 0xFF);
+}
+
+void mem_write8(uint32_t addr, uint32_t value)
+{
+    DRAM[addr] = (uint8_t)(value & 0xFF);
 }

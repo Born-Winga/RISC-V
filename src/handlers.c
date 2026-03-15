@@ -1,7 +1,9 @@
 #include "handlers.h"
+#include "utils.h"
 #include <limits.h>
 #include <stdint.h>
 
+// TODO: implement addr misalignment checks
 void exec_add(CPU* cpu, const DecodedInstr* ins)
 {
     cpu->REG[ins->rd] = cpu->REG[ins->rs1] + cpu->REG[ins->rs2];
@@ -49,19 +51,16 @@ void exec_mul(CPU* cpu, const DecodedInstr* ins)
     uint64_t product = (int64_t)(int32_t)cpu->REG[ins->rs1] * (int32_t)cpu->REG[ins->rs2];
     cpu->REG[ins->rd] = (uint32_t)product;
 }
-
 void exec_mulh(CPU* cpu, const DecodedInstr* ins)
 {
     uint64_t product = (int64_t)(int32_t)cpu->REG[ins->rs1] * (int32_t)cpu->REG[ins->rs2];
     cpu->REG[ins->rd] = (uint32_t)(product >> 32);
 }
-
 void exec_mulhu(CPU* cpu, const DecodedInstr* ins)
 {
     uint64_t product = (uint64_t)cpu->REG[ins->rs1] * (uint32_t)cpu->REG[ins->rs2];
     cpu->REG[ins->rd] = (uint32_t)(product >> 32);
 }
-
 void exec_mulhsu(CPU* cpu, const DecodedInstr* ins)
 {
     uint64_t product = (int64_t)(int32_t)cpu->REG[ins->rs1] * (uint32_t)cpu->REG[ins->rs2];
@@ -345,4 +344,35 @@ void exec_osctlr(CPU* cpu, const DecodedInstr* ins)
 {
     (void)cpu;
     (void)ins;
+}
+
+void exec_lrw(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t addr = cpu->REG[ins->rs1];
+    uint32_t word = mem_read32(addr);
+    cpu->REG[ins->rd] = word;
+    cpu->reservation = addr;
+    cpu->reservation_valid = true;
+}
+void exec_scw(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t addr = cpu->REG[ins->rs1];
+    uint32_t value = cpu->REG[ins->rs2];
+    // SC.W requires 4-byte alignment
+    if (addr & 0x3)
+    {
+        // raise_exception(cpu, STORE_ADDRESS_MISALIGNED, addr);
+        return;
+    }
+
+    if (cpu->reservation_valid && cpu->reservation == addr)
+    {
+        mem_write32(addr, value);
+        cpu->REG[ins->rd] = 0; // success
+    }
+    else
+    {
+        cpu->REG[ins->rd] = 1; // failure
+    }
+    cpu->reservation_valid = false;
 }

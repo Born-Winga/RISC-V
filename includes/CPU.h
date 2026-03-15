@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
 #ifndef CPU_H
@@ -15,6 +16,8 @@ typedef struct CPU
     uint32_t (*fetch)(struct CPU* cpu);
     void (*step)(struct CPU* cpu);
     void (*execute)(uint32_t instr, struct CPU* cpu);
+    uint32_t reservation;
+    bool reservation_valid;
 } CPU;
 
 uint32_t fetch(struct CPU* cpu);

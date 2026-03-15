@@ -58,6 +58,9 @@ static const InstructionDecsriptor instruction_table[] = {
     {"sh", STORE, SH, MATCH_ANY, exec_sh},
     {"sw", STORE, SW, MATCH_ANY, exec_sw},
 
+    {"lr.w", AMO, LR_SC_W, LR_W, exec_lrw},
+    {"sc.w", AMO, LR_SC_W, SC_W, exec_scw},
+
     {"beq", BRANCH, BEQ, MATCH_ANY, exec_beq},
     {"bne", BRANCH, BNE, MATCH_ANY, exec_bne},
     {"blt", BRANCH, BLT, MATCH_ANY, exec_blt},
@@ -84,8 +87,18 @@ const InstructionDecsriptor* find_instruction(const DecodedInstr* ins)
             continue;
         if (d->funct3 != -1 && d->funct3 != (int)ins->funct3)
             continue;
-        if (d->funct7 != -1 && d->funct7 != (int)ins->funct7)
-            continue;
+        if (d->funct7 != -1)
+        {
+            if (d->opcode == AMO)
+            {
+                if ((ins->funct7 & ~0x3u) != (uint32_t)d->funct7)
+                    continue;
+            }
+            else if (d->funct7 != (int)ins->funct7)
+            {
+                continue;
+            }
+        }
 
         return d;
     }

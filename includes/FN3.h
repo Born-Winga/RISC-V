@@ -62,4 +62,9 @@ typedef enum
     SW = 0x2
 } STORE_FN3;
 
+typedef enum
+{
+    LR_SC_W = 0x2
+} AMO_FN3;
+
 #endif

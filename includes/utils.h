@@ -15,4 +15,11 @@ typedef struct DecodedInstr
 
 DecodedInstr decode_basic(uint32_t instr);
 void fill_immediate(DecodedInstr* ins);
+uint32_t mem_read8(uint32_t addr);
+uint32_t mem_read16(uint32_t addr);
+uint32_t mem_read32(uint32_t addr);
+
+void mem_write8(uint32_t addr, uint32_t value);
+void mem_write16(uint32_t addr, uint32_t value);
+void mem_write32(uint32_t addr, uint32_t value);
 #endif
