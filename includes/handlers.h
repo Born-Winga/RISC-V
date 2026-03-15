@@ -69,5 +69,13 @@ void exec_osctlr(CPU* cpu, const DecodedInstr* instr);
 /** A extension */
 void exec_lrw(CPU* cpu, const DecodedInstr* instr);
 void exec_scw(CPU* cpu, const DecodedInstr* instr);
-
+void exec_amoaddw(CPU* cpu, const DecodedInstr* ins);
+void exec_amoandw(CPU* cpu, const DecodedInstr* ins);
+void exec_amoorw(CPU* cpu, const DecodedInstr* ins);
+void exec_amoxorw(CPU* cpu, const DecodedInstr* ins);
+void exec_amomaxw(CPU* cpu, const DecodedInstr* ins);
+void exec_amominw(CPU* cpu, const DecodedInstr* ins);
+void exec_amoswapw(CPU* cpu, const DecodedInstr* ins);
+void exec_amomaxuw(CPU* cpu, const DecodedInstr* ins);
+void exec_amominuw(CPU* cpu, const DecodedInstr* ins);
 #endif

@@ -58,8 +58,17 @@ static const InstructionDecsriptor instruction_table[] = {
     {"sh", STORE, SH, MATCH_ANY, exec_sh},
     {"sw", STORE, SW, MATCH_ANY, exec_sw},
 
+    {"amoadd.w", AMO, LR_SC_W, AMOADD_W, exec_amoaddw},
+    {"amoswap.w", AMO, LR_SC_W, AMOSWAP_W, exec_amoswapw},
     {"lr.w", AMO, LR_SC_W, LR_W, exec_lrw},
     {"sc.w", AMO, LR_SC_W, SC_W, exec_scw},
+    {"amoxor.w", AMO, LR_SC_W, AMOXOR_W, exec_amoxorw},
+    {"amoor.w", AMO, LR_SC_W, AMOOR_W, exec_amoorw},
+    {"amoand.w", AMO, LR_SC_W, AMOAND_W, exec_amoandw},
+    {"amomin.w", AMO, LR_SC_W, AMOMIN_W, exec_amominw},
+    {"amomax.w", AMO, LR_SC_W, AMOMAX_W, exec_amomaxw},
+    {"amominu.w", AMO, LR_SC_W, AMOMINU_W, exec_amominuw},
+    {"amomaxu.w", AMO, LR_SC_W, AMOMAXU_W, exec_amomaxuw},
 
     {"beq", BRANCH, BEQ, MATCH_ANY, exec_beq},
     {"bne", BRANCH, BNE, MATCH_ANY, exec_bne},

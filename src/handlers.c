@@ -376,3 +376,124 @@ void exec_scw(CPU* cpu, const DecodedInstr* ins)
     }
     cpu->reservation_valid = false;
 }
+void exec_amoaddw(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t addr = cpu->REG[ins->rs1];
+    uint32_t old = mem_read32(addr);
+    if (ins->rd != 0)
+        cpu->REG[ins->rd] = (uint32_t)old;
+
+    cpu->REG[ins->rd] = old;
+    uint32_t result = cpu->REG[ins->rs2] + old;
+    mem_write32(addr, result);
+    cpu->reservation_valid = false;
+}
+void exec_amoandw(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t addr = cpu->REG[ins->rs1];
+    uint32_t old = mem_read32(addr);
+    if (ins->rd != 0)
+        cpu->REG[ins->rd] = (uint32_t)old;
+
+    cpu->REG[ins->rd] = old;
+    uint32_t result = cpu->REG[ins->rs2] & old;
+    mem_write32(addr, result);
+    cpu->reservation_valid = false;
+}
+void exec_amoorw(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t addr = cpu->REG[ins->rs1];
+    uint32_t old = mem_read32(addr);
+    if (ins->rd != 0)
+        cpu->REG[ins->rd] = (uint32_t)old;
+
+    cpu->REG[ins->rd] = old;
+    uint32_t result = cpu->REG[ins->rs2] | old;
+    mem_write32(addr, result);
+    cpu->reservation_valid = false;
+}
+void exec_amoxorw(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t addr = cpu->REG[ins->rs1];
+    uint32_t old = mem_read32(addr);
+    if (ins->rd != 0)
+        cpu->REG[ins->rd] = (uint32_t)old;
+
+    cpu->REG[ins->rd] = old;
+    uint32_t result = cpu->REG[ins->rs2] ^ old;
+    mem_write32(addr, result);
+    cpu->reservation_valid = false;
+}
+void exec_amoswapw(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t addr = cpu->REG[ins->rs1];
+    uint32_t old = mem_read32(addr);
+    if (ins->rd != 0)
+        cpu->REG[ins->rd] = (uint32_t)old;
+
+    cpu->REG[ins->rd] = old;
+    uint32_t result = cpu->REG[ins->rs2];
+    mem_write32(addr, result);
+    cpu->reservation_valid = false;
+}
+void exec_amomaxw(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t addr = cpu->REG[ins->rs1];
+    int32_t old = (int32_t)mem_read32(addr);
+    int32_t src = (int32_t)cpu->REG[ins->rs2];
+
+    if (ins->rd != 0)
+        cpu->REG[ins->rd] = (uint32_t)old;
+
+    int32_t result = (src > old) ? src : old;
+    mem_write32(addr, (uint32_t)result);
+    cpu->reservation_valid = false;
+}
+
+void exec_amominw(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t addr = cpu->REG[ins->rs1];
+    int32_t old = (int32_t)mem_read32(addr);
+    int32_t src = (int32_t)cpu->REG[ins->rs2];
+
+    if (ins->rd != 0)
+        cpu->REG[ins->rd] = (uint32_t)old;
+
+    int32_t result = (src < old) ? src : old;
+    mem_write32(addr, (uint32_t)result);
+    cpu->reservation_valid = false;
+}
+
+void exec_amomaxuw(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t addr = cpu->REG[ins->rs1];
+    uint32_t old = mem_read32(addr);
+    if (ins->rd != 0)
+        cpu->REG[ins->rd] = (uint32_t)old;
+
+    cpu->REG[ins->rd] = old;
+    uint32_t result = old;
+    if (cpu->REG[ins->rs2] > old)
+    {
+        result = cpu->REG[ins->rs2];
+    }
+    mem_write32(addr, result);
+    cpu->reservation_valid = false;
+}
+void exec_amominuw(CPU* cpu, const DecodedInstr* ins)
+{
+
+    uint32_t addr = cpu->REG[ins->rs1];
+    uint32_t old = mem_read32(addr);
+    if (ins->rd != 0)
+        cpu->REG[ins->rd] = (uint32_t)old;
+
+    cpu->REG[ins->rd] = old;
+    uint32_t result = old;
+    if (cpu->REG[ins->rs2] < old)
+    {
+        result = cpu->REG[ins->rs2];
+    }
+    mem_write32(addr, result);
+    cpu->reservation_valid = false;
+}

@@ -8,7 +8,7 @@ Current support includes:
 
 - RV32 integer register operations
 - RV32M multiply, divide, and remainder
-- `LR.W` and `SC.W`
+- Word-sized atomic ops, including `LR.W`, `SC.W`, and AMOs
 - Immediate operations
 - Loads and stores
 - Branches
