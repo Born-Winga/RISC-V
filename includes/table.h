@@ -1,10 +1,10 @@
 #ifndef INSTR_TABLE_H
 #define INSTR_TABLE_H
-#include "CPU.h"
-#include "FN3.h"
-#include "FN7.h"
-#include "OPCODE.h"
+#include "cpu.h"
+#include "fn3.h"
+#include "fn7.h"
 #include "handlers.h"
+#include "opcode.h"
 #include "utils.h"
 #define ARRAY_LEN(arr) (sizeof(arr) / sizeof((arr)[0]))
 #define MATCH_ANY (-1)
@@ -84,6 +84,13 @@ static const InstructionDecsriptor instruction_table[] = {
 
     {"debug", SYSTEM, MATCH_ANY, DEBUG, exec_debug},
     {"os", SYSTEM, MATCH_ANY, OS, exec_osctlr},
+
+    {"csrrw", SYSTEM, CSRRW, MATCH_ANY, exec_csrrw},
+    {"csrrs", SYSTEM, CSRRS, MATCH_ANY, exec_csrrs},
+    {"csrrc", SYSTEM, CSRRC, MATCH_ANY, exec_csrrc},
+    {"csrrwi", SYSTEM, CSRRWI, MATCH_ANY, exec_csrrwi},
+    {"csrrsi", SYSTEM, CSRRSI, MATCH_ANY, exec_csrrsi},
+    {"csrrci", SYSTEM, CSRRCI, MATCH_ANY, exec_csrrci},
 };
 
 const InstructionDecsriptor* find_instruction(const DecodedInstr* ins)

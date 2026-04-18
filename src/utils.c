@@ -1,6 +1,6 @@
 #include "utils.h"
-#include "CPU.h"
-#include "OPCODE.h"
+#include "cpu.h"
+#include "opcode.h"
 #include <assert.h>
 #include <stdlib.h>
 
@@ -15,7 +15,6 @@ DecodedInstr decode_basic(uint32_t instr)
     ins.rs1 = extract(instr, 19, 15);
     ins.rs2 = extract(instr, 24, 20);
     ins.funct7 = extract(instr, 31, 25);
-
     return ins;
 }
 
@@ -28,6 +27,11 @@ void fill_immediate(DecodedInstr* ins)
     case JALR:
     case SYSTEM:
         ins->imm = sign_extend(extract(ins->instr, 31, 20), 12);
+        ins->csr_addr = zero_extend(extract(ins->instr, 31, 20), 32);
+        if (ins->funct3 >= 0b101 && ins->funct3 <= 0b111)
+        {
+            ins->uimm = ins->rs1;
+        }
         break;
 
     case STORE:

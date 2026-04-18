@@ -497,3 +497,26 @@ void exec_amominuw(CPU* cpu, const DecodedInstr* ins)
     mem_write32(addr, result);
     cpu->reservation_valid = false;
 }
+
+void exec_csrrw(CPU* cpu, const DecodedInstr* ins)
+{
+    if (ins->rd != 0x0)
+    {
+        uint32_t old = zero_extend(cpu->CSR_REG[ins->csr_addr], 32);
+        cpu->REG[ins->rd] = old;
+    }
+    cpu->CSR_REG[ins->csr_addr] = cpu->REG[ins->rs1];
+}
+void exec_csrrs(CPU* cpu, const DecodedInstr* ins)
+{
+    uint32_t old = zero_extend(cpu->CSR_REG[ins->csr_addr], 32);
+    cpu->REG[ins->rd] = old;
+    if (ins->rs1 != 0x0)
+    {
+        cpu->CSR_REG[ins->csr_addr] = cpu->REG[ins->rs1];
+    }
+}
+void exec_csrrc(CPU* cpu, const DecodedInstr* ins) {}
+void exec_csrrwi(CPU* cpu, const DecodedInstr* ins) {}
+void exec_csrrsi(CPU* cpu, const DecodedInstr* ins) {}
+void exec_csrrci(CPU* cpu, const DecodedInstr* ins) {}

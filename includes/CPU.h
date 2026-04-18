@@ -18,6 +18,7 @@ typedef struct CPU
     void (*execute)(uint32_t instr, struct CPU* cpu);
     uint32_t reservation;
     bool reservation_valid;
+    uint32_t CSR_REG[4096];
 } CPU;
 
 uint32_t fetch(struct CPU* cpu);

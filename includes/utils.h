@@ -11,6 +11,8 @@ typedef struct DecodedInstr
     uint32_t funct3;
     uint32_t funct7;
     int32_t imm;
+    uint32_t uimm;
+    uint32_t csr_addr;
 } DecodedInstr;
 
 DecodedInstr decode_basic(uint32_t instr);
@@ -22,4 +24,7 @@ uint32_t mem_read32(uint32_t addr);
 void mem_write8(uint32_t addr, uint32_t value);
 void mem_write16(uint32_t addr, uint32_t value);
 void mem_write32(uint32_t addr, uint32_t value);
+
+void csr_write();
+int32_t crs_read();
 #endif

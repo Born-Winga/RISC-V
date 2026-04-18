@@ -1,6 +1,6 @@
 #ifndef INSTR_HANDLER_H
 #define INSTR_HANDLER_H
-#include "CPU.h"
+#include "cpu.h"
 #include "utils.h"
 
 /** R_FMT */
@@ -78,4 +78,12 @@ void exec_amominw(CPU* cpu, const DecodedInstr* ins);
 void exec_amoswapw(CPU* cpu, const DecodedInstr* ins);
 void exec_amomaxuw(CPU* cpu, const DecodedInstr* ins);
 void exec_amominuw(CPU* cpu, const DecodedInstr* ins);
+
+/** csr extension */
+void exec_csrrw(CPU* cpu, const DecodedInstr* ins);
+void exec_csrrs(CPU* cpu, const DecodedInstr* ins);
+void exec_csrrc(CPU* cpu, const DecodedInstr* ins);
+void exec_csrrwi(CPU* cpu, const DecodedInstr* ins);
+void exec_csrrsi(CPU* cpu, const DecodedInstr* ins);
+void exec_csrrci(CPU* cpu, const DecodedInstr* ins);
 #endif

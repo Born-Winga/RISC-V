@@ -33,4 +33,14 @@ typedef enum
     AMOMINU_W = 0x60,
     AMOMAXU_W = 0x70,
 } AMO_FN7;
+
+typedef enum
+{
+    CSRRW = 0b001,
+    CSRRS = 0b010,
+    CSRRC = 0b011,
+    CSRRWI = 0b101,
+    CSRRSI = 0b110,
+    CSRRCI = 0b111,
+} CSR;
 #endif

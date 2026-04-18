@@ -1,7 +1,8 @@
-#include "CPU.h"
+#include "cpu.h"
 #include "table.h"
 #include "utils.h"
 uint8_t DRAM[MEM_SIZE] = {0};
+
 void execute(uint32_t instr, CPU* cpu)
 {
     DecodedInstr ins = decode_basic(instr);

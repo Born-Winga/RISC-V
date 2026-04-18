@@ -1,4 +1,4 @@
-#include "CPU.h"
+#include "cpu.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -72,5 +72,6 @@ int main(int argc, char* argv[])
         cpu_ptr->REG[0] = 0;
     }
 
+    free(&cpu);
     return 0;
 }
