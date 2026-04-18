@@ -28,7 +28,7 @@ void fill_immediate(DecodedInstr* ins)
     case SYSTEM:
         ins->imm = sign_extend(extract(ins->instr, 31, 20), 12);
         ins->csr_addr = zero_extend(extract(ins->instr, 31, 20), 32);
-        if (ins->funct3 >= 0b101 && ins->funct3 <= 0b111)
+        if (ins->funct3 >= 0x5 && ins->funct3 <= 0x7)
         {
             ins->uimm = ins->rs1;
         }

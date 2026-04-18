@@ -72,6 +72,5 @@ int main(int argc, char* argv[])
         cpu_ptr->REG[0] = 0;
     }
 
-    free(&cpu);
     return 0;
 }

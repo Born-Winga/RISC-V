@@ -36,11 +36,11 @@ typedef enum
 
 typedef enum
 {
-    CSRRW = 0b001,
-    CSRRS = 0b010,
-    CSRRC = 0b011,
-    CSRRWI = 0b101,
-    CSRRSI = 0b110,
-    CSRRCI = 0b111,
+    CSRRW = 0x1,
+    CSRRS = 0x2,
+    CSRRC = 0x3,
+    CSRRWI = 0x5,
+    CSRRSI = 0x6,
+    CSRRCI = 0x7,
 } CSR;
 #endif
